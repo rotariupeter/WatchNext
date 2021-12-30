@@ -24,7 +24,7 @@ return <Modal width = {600} title={<h2><InfoCircleOutlined /><span>&nbsp;About</
                 <tr><td>- Postgresql JDBC 42.2.20</td><td></td></tr>
                  <h5>&nbsp;</h5>
 
-                 <tr><th colspan="2"> <center> Backend&emsp;&emsp; </center></th></tr>
+                 <tr><th colspan="2"> <center> Other Technologies&emsp;&emsp; </center></th></tr>
                  <tr><td colspan="2"> <center>- Postgres DB on Docker Image&emsp;&emsp;</center></td></tr>
                  <tr><td colspan="2"> <center>- AWS RDS & Elastic Beanstalk&emsp;&emsp;</center></td></tr>
                  <tr><td colspan="2"> <center>- Maven Build Tool&emsp;&emsp;</center></td></tr>
