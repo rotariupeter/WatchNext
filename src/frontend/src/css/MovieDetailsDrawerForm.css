@@ -1,0 +1,41 @@
+.timeline-clock-icon {
+  font-size: 20px;
+}
+
+[data-theme='compact'] .timeline-clock-icon {
+  font-size: 14px;
+}
+.custom-icons-list > .anticon {
+  margin-right: 6px;
+}
+.ant-row-rtl .custom-icons-list > .anticon {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+.ant-drawer-footer {
+  position: relative;
+  padding:6px;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  align:center;
+  float: center;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.ant-rate-star {
+top:-7px;
+font-size:20px;
+}
+
+.ant-timeline-item-content{
+top:-9px;
+}
+.ant-timeline-item{
+padding-bottom:18px;
+}

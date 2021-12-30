@@ -1,0 +1,10 @@
+caption {
+
+    caption-side: top;
+    text-align:center;
+    color:black;
+    font-size: 15px;
+}
+td {
+  list-style-type: square ;
+}

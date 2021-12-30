@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Latest Releases!</title>
+</head>
+<body>
+<h1>Welcome to Watch Next"</h1>
+<table>
+    <tr>
+        <td>Movie Name</td>
+        <td>Description</td>
+        <td>Release Date</td>
+        <td>Duration (min)</td>
+        <td>Country</td>
+
+    </tr>
+    <tr th:each="movie: ${movies}">
+        <td th:text="${movie.movieName}">Name</td>
+        <td th:text="${movie.movieDescription}">Description</td>
+        <td th:text="${movie.releaseDate}">Release Date</td>
+        <td th:text="${movie.durationInMin}">Duration</td>
+        <td th:text="${movie.country}">Country</td>
+
+    </tr>
+</table>
+</body>
+</html>

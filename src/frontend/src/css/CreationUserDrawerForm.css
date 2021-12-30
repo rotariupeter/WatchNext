@@ -1,0 +1,19 @@
+.ant-form-item-label {
+text-align:left;
+}
+.ant-col-sm-8 {
+
+    -ms-flex: 0 0 22.33333333%;
+    flex: 0 0 22.33333333%;
+
+}
+.ant-col-sm-16 {
+    display: block;
+    -ms-flex: 0 0 88.66666667%;
+    flex: 0 0 88.66666667%;
+    max-width: 88.66666667%;
+}
+
+.ant-form-item .ant-mentions, .ant-form-item textarea.ant-input {
+    height: 110px;
+}
