@@ -182,6 +182,13 @@ function App() {
         history.push('/');
 
     }
+    const toAbout=()=>{
+            setIsAboutModalVisible(!isAboutModalVisible)
+            routeChange("about")
+            history.push('/');
+
+
+        }
 
      const clear=()=>{
            setMovieID(null);
@@ -319,7 +326,7 @@ function App() {
                         </>
                         : null}
                     </SubMenu>
-                    <Menu.Item key="7" onClick={() => setIsAboutModalVisible(!isAboutModalVisible)} /*autoFocus={bodyDisplayed === "logout" }*/ icon={<InfoCircleOutlined  />}>
+                    <Menu.Item key="710" onClick={() => toAbout()}  icon={<InfoCircleOutlined  />}>
                        About
                      </Menu.Item>
 
