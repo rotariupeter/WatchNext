@@ -1,4 +1,4 @@
-package com.petru.WatchNext.test;
+package com.petru.WatchNext.dummyTest;
 
 import com.petru.WatchNext.buisness.logic.user.role.AuthRolesEntity;
 

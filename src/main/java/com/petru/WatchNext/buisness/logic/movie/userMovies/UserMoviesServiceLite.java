@@ -2,7 +2,7 @@ package com.petru.WatchNext.buisness.logic.movie.userMovies;
 
 import com.petru.WatchNext.buisness.logic.movie.IMovieLiteRepo;
 import com.petru.WatchNext.buisness.logic.movie.MoviesEntityLite;
-import com.petru.WatchNext.test.UserDTO;
+import com.petru.WatchNext.dummyTest.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

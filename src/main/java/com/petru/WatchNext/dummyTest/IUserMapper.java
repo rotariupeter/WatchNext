@@ -1,4 +1,4 @@
-package com.petru.WatchNext.test;
+package com.petru.WatchNext.dummyTest;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

@@ -1,6 +1,6 @@
 package com.petru.WatchNext.buisness.logic.movie.userMovies;
 
-import com.petru.WatchNext.test.UserDTO;
+import com.petru.WatchNext.dummyTest.UserDTO;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
