@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
 import com.petru.WatchNext.buisness.logic.user.role.AuthRolesEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,7 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username",nullable = false, unique = true)
     private String userName;
 
     @Column(name = "password")
@@ -47,7 +48,8 @@ public class UserEntity implements UserDetails {
     @Column(name = "forename")
     private String forename;
 
-    @Column(name = "email")
+    @Email
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
 
     @Column(name = "isactiv")

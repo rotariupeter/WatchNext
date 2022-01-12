@@ -9,7 +9,6 @@ const initialState={
 
 
 const auth=(state=initialState,action)=>{
-    console.log("Reducer auth");
     switch(action.type){
         case AUTH_REQ:
             return {...state,error:'',loading:true};

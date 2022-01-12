@@ -9,9 +9,10 @@ import {
 from "./api/ClientService";
 import {successNotification, warningNotification} from "./pages/Notification";
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
+import { useHistory ,} from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Icon from '@ant-design/icons';
+import { Redirect } from 'react-router';
 
 import {
     BrowserRouter,
@@ -106,7 +107,7 @@ const generalColumns = fetchMovies => [ {
     ];
 
 
-
+let prevLocation;
 const antIcon =  < LoadingOutlined style = {{ fontSize: 24}}
 spin /  > ;
 
@@ -127,13 +128,28 @@ function App() {
 
     let history = useHistory();
 
+
+
+    history.listen(nextLocation => {
+      console.log(prevLocation);
+      prevLocation = nextLocation.pathname;
+    });
+
     useEffect(() => {
               toHome();
      },[]);
 
+//      useEffect(() => {
+//             if(!isAboutModalVisible && prevLocation){
+//                history.push(prevLocation);
+//                }
+//
+//      },[isAboutModalVisible]);
+
+
      useEffect(() => {
             clear();
-            if(bodyDisplayed == null || bodyDisplayed.length ===""){
+            if(bodyDisplayed){
                 routeChange("home");
             }
             console.log("component is mounted " + "Bearer " + localStorage.getItem('NAME'));
@@ -182,13 +198,6 @@ function App() {
         history.push('/');
 
     }
-    const toAbout=()=>{
-            setIsAboutModalVisible(!isAboutModalVisible)
-            routeChange("about")
-            history.push('/');
-
-
-        }
 
      const clear=()=>{
            setMovieID(null);
@@ -280,16 +289,13 @@ function App() {
              selectedMovieID={selectedMovieID}
              selectedMovieIsFavorite={selectedMovieIsFavorite}
         />
-        <AboutModal
-             isAboutModalVisible={isAboutModalVisible}
-             setIsAboutModalVisible={setIsAboutModalVisible}
-        />
+
         <Table
         dataSource = { movies }
         columns = { localStorage.getItem('NAME') != null && localStorage.getItem('USER_KEY') != null ? columns(fetchMovies) : generalColumns(fetchMovies) }
         bordered
         title = {() => 'Latest Movies' }
-        pagination = {{ pageSize: 50 }}
+        pagination = {{ pageSize: 10 }}
         scroll = {{ y: 1000}}
         rowKey = { movie => movie.movieId }
         onRow = { (record) => ({
@@ -304,14 +310,19 @@ function App() {
         </>
 
     }
+
     return <Layout style={{minHeight: '100vh'}}>
-        <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+            <AboutModal
+                  isAboutModalVisible={isAboutModalVisible}
+                  setIsAboutModalVisible={setIsAboutModalVisible}
+            />
+            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
                   <div className="logo" > aici este logo</div>
                   <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" onClick={() => toHome()} /*autoFocus={bodyDisplayed === "logout" }*/ icon={<HomeOutlined />}>
                       Home
                     </Menu.Item>
-                        <SubMenu key="sub1" icon={<UserOutlined />} title={localStorage.getItem('NAME') != null && localStorage.getItem('USER_KEY') != null ? userInitials : "User"}  >
+                        <SubMenu key="sub1" icon={<UserOutlined />} title={localStorage.getItem('NAME') != null && localStorage.getItem('USER_KEY') != null ? userInitials : "Users"}  >
                         {localStorage.getItem('NAME') != null && localStorage.getItem('USER_KEY') != null ?
                             <Menu.Item key="3">{localStorage.getItem('NAME')}</Menu.Item>
                              : null}
@@ -326,7 +337,7 @@ function App() {
                         </>
                         : null}
                     </SubMenu>
-                    <Menu.Item key="710" onClick={() => toAbout()}  icon={<InfoCircleOutlined  />}>
+                    <Menu.Item key="710" onClick={() => setIsAboutModalVisible(!isAboutModalVisible)}  icon={<InfoCircleOutlined  />}>
                        About
                      </Menu.Item>
 
@@ -346,6 +357,7 @@ function App() {
                               <Route exact path="/" component={ () => renderMovies()}/>
                               <Route exact path="/login" component= { () => < LoginPage bodyDisplayed = {bodyDisplayed} setBodyDisplayed = {setBodyDisplayed}/> }/>
                               <Route exact path="/dashboard" component= { () => < UserMovies setBodyDisplayed = {setBodyDisplayed} /> }/>
+                              <Redirect to="/" />
                           </Switch>
                      </div>
                   </Content>

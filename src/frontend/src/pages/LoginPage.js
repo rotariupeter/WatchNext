@@ -101,7 +101,7 @@ const LoginPage=({setBodyDisplayed,error,...props})=>{
 
                              <h1>&nbsp;</h1>
                              <h1>&nbsp;</h1>
-                             <div className="card-title" style={{ ['text-align']: 'left',['font-size']: '30px'}} ><b>Login</b></div>
+                             <div className="card-title" style={{ textAlign: 'left',['font-size']: '30px'}} ><b>Login</b></div>
                              <h1>&nbsp;</h1>
                              <h1>&nbsp;</h1>
 

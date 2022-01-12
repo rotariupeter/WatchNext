@@ -37,9 +37,9 @@ public class AuthWebController {
     private UserDetailsService userDetailsService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login( @RequestBody UserAuthRequestDTO authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException, InterruptedException {
+    public synchronized ResponseEntity<?> login( @RequestBody UserAuthRequestDTO authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException, InterruptedException {
 
-        Thread.sleep(1000);
+        Thread.sleep(1100);
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUserName(), authenticationRequest.getPassword(),new ArrayList<>()));
@@ -55,6 +55,7 @@ public class AuthWebController {
         response.setUsername(userEntity.getUsername());
         response.setUser_id(userEntity.getId());
         response.setExpirationDate(jWTTokenHelper.getExpirationDate(jwtToken));
+
 
         return ResponseEntity.ok(response);
     }

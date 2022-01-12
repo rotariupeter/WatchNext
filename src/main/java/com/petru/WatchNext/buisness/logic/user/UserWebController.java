@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
@@ -34,17 +35,12 @@ public class UserWebController {
     private CustomUserService userDetailsService;
 
     @PostMapping("/createUser")
-    public ResponseEntity<?> createUser( @RequestBody UserInfoDTO userDetails)  {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserInfoDTO userDetails)  {
 
-        if(userDetails == null || userDetails.getUserName() == null || userDetails.getPassword() == null) return ResponseEntity.noContent().build();
+        if (userDetails == null || userDetails.getUserName() == null || userDetails.getPassword() == null)
+            return ResponseEntity.noContent().build();
 
-        try {
-            userDetailsService.saveUser(userDetails);
-
-        }catch ( HttpClientErrorException e){
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-        }
-
+        userDetailsService.saveUser(userDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

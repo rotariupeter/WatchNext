@@ -2,6 +2,7 @@ package com.petru.WatchNext.buisness.logic.user;
 
 import com.petru.WatchNext.buisness.logic.user.role.AuthRolesEntity;
 import com.petru.WatchNext.buisness.logic.user.role.IUserRoleRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,8 +42,9 @@ public class CustomUserService implements UserDetailsService {
 
     public UserEntity saveUser(UserInfoDTO userDetails) throws HttpClientErrorException {
 
-        if(iUserDetailsRepository.count() > 1) throw new HttpClientErrorException(HttpStatus.TOO_MANY_REQUESTS); // dummy condition to prevent user multiple user creation
+        if(iUserDetailsRepository.count() > 100) throw new HttpClientErrorException(HttpStatus.TOO_MANY_REQUESTS,"The user creation is limited to 100. Please contact site administrator"); // dummy condition to prevent user multiple user creation
         UserEntity userEntity =new UserEntity();
+        UserEntity savedEntity = null;
 
         userEntity.setUserName(userDetails.getUserName());
         userEntity.setSurname(userDetails.getSurname());
@@ -54,7 +56,22 @@ public class CustomUserService implements UserDetailsService {
         userEntity.setEnabled(true);
         userEntity.setAuthorities(getAuthorities(new String[]{userDetails.getRole()}));
 
-        return iUserDetailsRepository.save(userEntity);
+        try {
+
+            savedEntity= iUserDetailsRepository.save(userEntity);
+
+        } catch (Exception e) {
+
+            e.getLocalizedMessage();
+            Throwable cause = e.getCause();
+            while (cause.getCause() != null) {
+                cause = cause.getCause();
+            }
+            String message = cause != null ? cause.getMessage().substring(cause.getMessage().lastIndexOf("\n") + 1) : e.getMessage();
+            throw new HttpClientErrorException(HttpStatus.CONFLICT,message);
+        }
+
+        return savedEntity;
     }
 
     private List<AuthRolesEntity> getAuthorities(String[] rolesName){

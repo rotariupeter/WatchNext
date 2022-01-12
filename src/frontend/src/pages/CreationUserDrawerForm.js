@@ -17,26 +17,27 @@ function CreationUserDrawerForm({showDrawer, setShowDrawer}) {
             if(response.status===201){
                console.log('user creation success: ', value);
                onCLose();
-
                successNotification(
                 "User successfully added",
                 `Username ${value.userName} was added to the system`
                )
              }
              else{
-             console.log('user creation success: ', response.status);
+             errorNotification(
+                  "User failed to add",
+                  `Something happened. Please try again`
+                   )
              }
 
         }).catch((err)=>{
            if(err && err.response){
-             console.log('user creation err: ', err.response);
-             errorNotification(
-                "User failed to add",
-                `Change Username or Email. These fields are already in the system`
-                 )
+              errorNotification(
+               "Failed to create user!",
+               `${ err.response.data.message.substring(err.response.data.message.indexOf(' ') + 1)}`
+                )
            }
            else{
-                 console.log('user creation err else');
+                 console.log('Something happened. Please try again');
            }
          });
     };

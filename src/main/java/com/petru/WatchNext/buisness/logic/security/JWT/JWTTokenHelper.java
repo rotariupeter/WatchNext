@@ -3,13 +3,17 @@ package com.petru.WatchNext.buisness.logic.security.JWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -59,7 +63,7 @@ public class JWTTokenHelper {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
-                .signWith( SIGNATURE_ALGORITHM, secretKey )
+                .signWith( SIGNATURE_ALGORITHM, convertStringToSecretKey(secretKey) )
                 .compact();
     }
 
@@ -72,10 +76,31 @@ public class JWTTokenHelper {
         return (
                 username != null &&
                         username.equals(userDetails.getUsername()) &&
-                        !isTokenExpired(token)
+                        !isTokenExpired(token) && isSignatureValid(token)
         );
     }
 
+    public static SecretKey convertStringToSecretKey(String encodedKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+        return originalKey;
+    }
+
+    private boolean isSignatureValid(String token){
+        if(token == null) return false;
+
+        String[] split = token.trim().split("\\.");
+
+        if(split == null || split.length < 3) return false;
+
+        DefaultJwtSignatureValidator validator = new DefaultJwtSignatureValidator(SIGNATURE_ALGORITHM,convertStringToSecretKey(secretKey));
+
+        if (!validator.isValid(split[0] +"."+split[1], split[2])) {
+           return false;
+        }
+
+        return true;
+    }
     public boolean isTokenExpired(String token) {
         Date expireDate=getExpirationDate(token);
         return expireDate.before(new Date());

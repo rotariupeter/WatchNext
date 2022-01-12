@@ -2,6 +2,7 @@ package com.petru.WatchNext.buisness.logic.security.JWT;
 
 import java.io.IOException;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +36,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
             String userName=jwtTokenHelper.getUsernameFromToken(authToken);
 
-            if(null!=userName) {
+            if(userName != null) {
 
                 UserDetails userDetails=userDetailsService.loadUserByUsername(userName);
 
                 if(jwtTokenHelper.validateToken(authToken, userDetails)) {
 
-                    UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,10 +51,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             }
 
         }
-
         filterChain.doFilter(request, response);
-
-
 
     }
 
