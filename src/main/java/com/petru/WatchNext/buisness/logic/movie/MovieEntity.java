@@ -5,7 +5,11 @@ import com.petru.WatchNext.buisness.logic.user.UserLiteEntity;
 import javax.persistence.*;
 import java.util.Date;
 
-//This query is mean
+//I have created this native querry that returns all the movies and where is appropiate the user id.
+// If the user is logged in, the id is binded but only if the movie is associated with that Id
+// I found this query eficient as almost every time the user is logged in
+// No matter if the user is logged in or not the same query is executed. This is for homepage and if we have user id associated with the 
+// movie we will dispay the favorite icon(heart icon) in the last column
 @NamedNativeQuery(name = "MovieEntity.findMovies",
         query = "select mov.id as movieId," +
                 "   user_m.user_id as userID," +
